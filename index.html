@@ -1,0 +1,15 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Tokyo Bliss - Akihabara</title>
+</head>
+<body>
+
+	<label>Filter: <input type="text" data-bind="textInput: filterText"/></label>
+	<ul data-bind="foreach: getLocations()">
+		<li data-bind="text: name, click: $parent.locationClicked"></li>
+	</ul>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+</body>
+</html>
