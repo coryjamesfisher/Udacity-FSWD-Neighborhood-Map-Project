@@ -139,6 +139,10 @@ var LocationViewModel = function() {
                                     var infoWindow = new google.maps.InfoWindow({
                                         content: contentString
                                     });
+
+                                    google.maps.event.addListener(infoWindow, 'closeclick', function(){
+                                        google.maps.event.trigger(marker, 'click');
+                                    });
                                 } else {
                                     infoWindow.setContent(contentString);
                                 }
