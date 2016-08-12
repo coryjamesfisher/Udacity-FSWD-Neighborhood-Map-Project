@@ -2,14 +2,26 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Tokyo Bliss - Akihabara</title>
+
+	<style type="text/css">
+		ul.locations {
+			display: inline-block;
+		}
+	</style>
 </head>
 <body>
 
-	<label>Filter: <input type="text" data-bind="textInput: filterText"/></label>
-	<ul data-bind="foreach: getLocations()">
-		<li data-bind="text: name, click: $parent.locationClicked"></li>
-	</ul>
+	<div>
+		<label>Filter: <input type="text" data-bind="textInput: filterText"/></label><br/>
+		<ul data-bind="foreach: getLocations()" class="locations">
+			<li data-bind="text: name, click: $parent.locationClicked"></li>
+		</ul>
+	</div>
+
+
+	<div id="map" style="height: 70%;"></div>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7x1T0ynrVDKHd53290nJWt2Azj8nvWSg"></script>
 	<script type="text/javascript" src="app.js"></script>
 </body>
 </html>
