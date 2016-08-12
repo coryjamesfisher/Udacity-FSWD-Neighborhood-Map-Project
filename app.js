@@ -5,8 +5,6 @@ var Map = function(locations) {
     this.locations = ko.observableArray(locations);
     this.activeLocation = ko.observable();
 
-    // This can not be tracked with knockout due to Maps API Constraints.
-
     this.getLocations = function(filterText) {
 
         // No filter. Just return all.
@@ -30,6 +28,7 @@ var Location = function(id, name, latitude, longitude) {
     this.latitude = latitude;
     this.longitude = longitude;
     this.marker = null;
+    this.infoWindow = null;
 
     this.setMarker = function(marker) {
         self.marker = marker;
@@ -37,6 +36,14 @@ var Location = function(id, name, latitude, longitude) {
 
     this.getMarker = function() {
         return self.marker;
+    }
+
+    this.setInfoWindow = function(infoWindow) {
+        self.infoWindow = infoWindow;
+    }
+
+    this.getInfoWindow = function() {
+        return self.infoWindow;
     }
 };
 
@@ -64,6 +71,7 @@ var LocationViewModel = function() {
                 // hide info dialog
             } else {
                 //show info dialog
+
             }
 
             google.maps.event.trigger(marker, 'click');
@@ -93,10 +101,57 @@ var LocationViewModel = function() {
                 });
                 location.setMarker(marker);
                 marker.addListener('click', function () {
+
                     if (marker.getAnimation() !== null) {
                         marker.setAnimation(null);
+                        location.getInfoWindow().close();
                     } else {
-                        marker.setAnimation(google.maps.Animation.BOUNCE);
+
+                        locations.forEach(function(compareLocation) {
+                           if (compareLocation.id === location.id) {
+                               compareLocation.marker.setAnimation(google.maps.Animation.BOUNCE);
+                           } else {
+                               compareLocation.marker.setAnimation(null);
+                               var compareInfoWindow = compareLocation.getInfoWindow();
+                               if (compareInfoWindow !== null) {
+                                   compareInfoWindow.close();
+                               }
+                           }
+                        });
+
+                        jQuery.ajax({
+                            url: "http://localhost:8000/api/location/tweets",
+                            method: "GET",
+                            data: {
+                                'location': encodeURIComponent(location.name),
+                                'lat': location.latitude,
+                                'lon': location.longitude
+                            },
+                            success: function(data) {
+
+                                var contentString = '';
+                                data.statuses.forEach(function(status) {
+                                    contentString += status.text + '<br/>';
+                                });
+
+                                var infoWindow = location.getInfoWindow();
+                                if (infoWindow === null) {
+                                    var infoWindow = new google.maps.InfoWindow({
+                                        content: contentString
+                                    });
+                                } else {
+                                    infoWindow.setContent(contentString);
+                                }
+
+                                infoWindow.open(self.googleMap, marker);
+                                location.setInfoWindow(infoWindow);
+                            },
+                            error: function(data) {
+                                // @todo handle error
+                                console.log('failed to authenticate');
+                                console.dir(data);
+                            }
+                        });
                     }
                 });
 
