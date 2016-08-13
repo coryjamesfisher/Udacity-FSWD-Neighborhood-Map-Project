@@ -14,14 +14,14 @@ Running The Project
 Technologies Used
 -----------------
 
- 1. APIs Utilized
-	Google Maps
-	Twitter
+ 1. APIs Utilized  
+	Google Maps  
+	Twitter  
 	
- 2. Technologies Used
-	 Vagrant - For Virtual Machine Creation
-	 NodeJS & NPM - for Proxying of Twitter Calls & Serving of index.html
-	 jQuery & Knockout.js - For Front End Development
+ 2. Technologies Used  
+	 Vagrant - For Virtual Machine Creation  
+	 NodeJS & NPM - for Proxying of Twitter Calls & Serving of index.html  
+	 jQuery & Knockout.js - For Front End Development  
 	 
 	 
 	 
