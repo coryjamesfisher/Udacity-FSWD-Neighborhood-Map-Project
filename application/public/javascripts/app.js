@@ -8,6 +8,15 @@ var Map = function(locations) {
 
     this.locations = ko.observableArray(locations);
 
+    this.infoWindow = null;
+    this.setInfoWindow = function(infoWindow) {
+        self.infoWindow = infoWindow;
+    };
+
+    this.getInfoWindow = function() {
+        return self.infoWindow;
+    };
+
     this.getLocations = function(filterText) {
 
         // No filter. Just return all.
@@ -34,7 +43,6 @@ var Location = function(id, name, latitude, longitude) {
     this.latitude = latitude;
     this.longitude = longitude;
     this.marker = null;
-    this.infoWindow = null;
 
     this.setMarker = function(marker) {
         self.marker = marker;
@@ -42,14 +50,6 @@ var Location = function(id, name, latitude, longitude) {
 
     this.getMarker = function() {
         return self.marker;
-    };
-
-    this.setInfoWindow = function(infoWindow) {
-        self.infoWindow = infoWindow;
-    };
-
-    this.getInfoWindow = function() {
-        return self.infoWindow;
     };
 };
 
@@ -64,6 +64,20 @@ var LocationViewModel = function() {
         new Location(4, "Ramen Restaurant", 35.659107, 139.698166),
         new Location(5, "Akihabara Station", 35.698597, 139.773125)
     ]);
+
+    // Create a single info window to reuse throughout the application.
+    self.map.setInfoWindow(new google.maps.InfoWindow({content: ''}));
+
+    // If the info window is closed, stop animating the marker.
+    google.maps.event.addListener(self.map.getInfoWindow(), 'closeclick', function(){
+        var locations = self.getLocations();
+
+        locations.forEach(function(location) {
+            if (location.getMarker().getAnimation() !== null) {
+                google.maps.event.trigger(location.getMarker(), 'click');
+            }
+        });
+    });
 
     // Observe the filter text. When it changes the binds filter the list.
     self.filterText = ko.observable("");
@@ -110,7 +124,7 @@ var LocationViewModel = function() {
                     // Marker is already animating. Stop it.
                     if (marker.getAnimation() !== null) {
                         marker.setAnimation(null);
-                        location.getInfoWindow().close();
+                        self.map.getInfoWindow().close();
                     } else {
 
                         // Loop over the locations. Stop animating other markers. Start animating the selected one.
@@ -119,31 +133,10 @@ var LocationViewModel = function() {
                                compareLocation.marker.setAnimation(google.maps.Animation.BOUNCE);
                            } else {
                                compareLocation.marker.setAnimation(null);
-                               var compareInfoWindow = compareLocation.getInfoWindow();
-                               if (compareInfoWindow !== null) {
-                                   compareInfoWindow.close();
-                               }
                            }
                         });
 
-                        // Initialize the info window.
-                        // Whether the twitter pull succeeds or fails we have to show the user SOMETHING.
-                        var infoWindow = location.getInfoWindow();
-                        if (infoWindow === null) {
-
-                            // Initialize content to empty string.
-                            infoWindow = new google.maps.InfoWindow({
-                                content: ''
-                            });
-
-                            // If the info window is closed. Deselect the marker.
-                            google.maps.event.addListener(infoWindow, 'closeclick', function(){
-                                google.maps.event.trigger(marker, 'click');
-                            });
-
-                            // Set info window into location so we don't have to do this init again.
-                            location.setInfoWindow(infoWindow);
-                        }
+                        var infoWindow = self.map.getInfoWindow();
 
                         // Call out to the backend proxy to the twitter service.
                         jQuery.ajax({
