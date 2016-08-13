@@ -8,6 +8,6 @@ apt-get -qqy install nodejs npm
 ln -s /usr/bin/nodejs /usr/bin/node
 
 # Install packages from package.json
-cd /vagrant/backend && npm install
+cd /vagrant/application && npm install
 
 echo "export PORT=8000" > /etc/profile.d/server_vars.sh
