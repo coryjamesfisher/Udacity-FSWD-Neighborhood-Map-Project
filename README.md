@@ -22,6 +22,3 @@ Technologies Used
 	 Vagrant - For Virtual Machine Creation  
 	 NodeJS, NPM, Express.js - for Proxying of Twitter Calls & Serving of index.html  
 	 jQuery & Knockout.js - For Front End Development  
-	 
-	 
-	 
