@@ -209,6 +209,9 @@ var LocationViewModel = function(googleMap) {
 };
 
 tokyoBliss.initialize = function() {
+
+    $('main,footer').css('visibility', 'visible');
+
     // Google maps objects. Not observable as per recommendation in project specs.
     var googleMap = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -34.397, lng: 150.644}, // These coords are from the sample. The map is immediately recentered anyways.

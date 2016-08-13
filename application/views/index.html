@@ -25,9 +25,11 @@
 		<p>Powered by Twitter & Google Maps APIs</p>
 	</footer>
 
-	<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js"></script>
-	<script src="javascripts/app.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7x1T0ynrVDKHd53290nJWt2Azj8nvWSg&callback=tokyoBliss.initialize" async defer></script>
+	<!-- Bootstrap onerror has JS just for the catch all case that we can't get even that tiny JS file -->
+	<script src="javascripts/bootstrap.js" onerror="document.getElementsByTagName('body')[0].innerHTML = 'Sorry, but the application seems to be down. Please refresh to try again.'"></script>
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous" onerror="tokyoBliss.jsIncludeError('JQuery Library')"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js" onerror="tokyoBliss.jsIncludeError('Knockout Library')"></script>
+	<script src="javascripts/app.js" onerror="tokyoBliss.jsIncludeError('JS Application')"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7x1T0ynrVDKHd53290nJWt2Azj8nvWSg&callback=tokyoBliss.initialize" onerror="tokyoBliss.jsIncludeError('Google Maps API')" async defer></script>
 </body>
 </html>
