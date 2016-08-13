@@ -58,11 +58,11 @@ var LocationViewModel = function() {
 
     // Create list of locations for the model.
     self.map = new Map([
-        new Location(1, "Cure Maid Cafe", 35.702159, 139.771264),
-        new Location(2, "Cafe Style", 35.705163, 139.771250),
-        new Location(3, "Mandarake", 35.668821, 139.698807),
-        new Location(4, "Ramen Restaurant", 35.659107, 139.698166),
-        new Location(5, "Akihabara Station", 35.698597, 139.773125)
+        new Location(1, 'Cure Maid Cafe', 35.702159, 139.771264),
+        new Location(2, 'Cafe Style', 35.705163, 139.771250),
+        new Location(3, 'Mandarake', 35.668821, 139.698807),
+        new Location(4, 'Ramen Restaurant', 35.659107, 139.698166),
+        new Location(5, 'Akihabara Station', 35.698597, 139.773125)
     ]);
 
     // Create a single info window to reuse throughout the application.
@@ -80,7 +80,7 @@ var LocationViewModel = function() {
     });
 
     // Observe the filter text. When it changes the binds filter the list.
-    self.filterText = ko.observable("");
+    self.filterText = ko.observable('');
     self.getLocations = ko.computed(function() {
         return self.map.getLocations(self.filterText());
     });
@@ -140,8 +140,8 @@ var LocationViewModel = function() {
 
                         // Call out to the backend proxy to the twitter service.
                         jQuery.ajax({
-                            url: "http://localhost:8000/api/location/tweets",
-                            method: "GET",
+                            url: 'http://localhost:8000/api/location/tweets',
+                            method: 'GET',
                             data: {
                                 'location': encodeURIComponent(location.name),
                                 'lat': location.latitude,
@@ -159,7 +159,7 @@ var LocationViewModel = function() {
                                 infoWindow.open(self.googleMap, marker);
                             },
                             error: function(jqXHR, textStatus, errorThrown) {
-                                infoWindow.setContent("Sorry, but the Twitter API seems to be down. Please try again soon.");
+                                infoWindow.setContent('Sorry, but the Twitter API seems to be down. Please try again soon.');
                                 infoWindow.open(self.googleMap, marker);
                             }
                         });
@@ -184,5 +184,5 @@ var lvm = new LocationViewModel();
 ko.applyBindings(lvm);
 
 // Prove that adding a location the binds still work appropriately.
-lvm.map.locations.push(new Location(6, "Akiba Zone", 35.699770, 139.770332));
+lvm.map.locations.push(new Location(6, 'Akiba Zone', 35.699770, 139.770332));
 })();
