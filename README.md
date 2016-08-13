@@ -1,4 +1,4 @@
-Udacity FSWD Neighborhood Map Project
+Udacity FSWD Neighborhood Map Project
 =====================================
 
 About The Project
@@ -20,7 +20,7 @@ Technologies Used
 	
  2. Technologies Used  
 	 Vagrant - For Virtual Machine Creation  
-	 NodeJS & NPM - for Proxying of Twitter Calls & Serving of index.html  
+	 NodeJS, NPM, Express.js - for Proxying of Twitter Calls & Serving of index.html  
 	 jQuery & Knockout.js - For Front End Development  
 	 
 	 
