@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Tokyo Bliss - Akihabara</title>
 
-	<link rel="stylesheet" href="stylesheets/app.css"/>
+	<link rel="stylesheet" href="stylesheets/app.css">
 </head>
 <body>
 
-	<div>
-		<label>Filter: <input type="text" data-bind="textInput: map.filterText"/></label><br/>
-		<ul data-bind="foreach: map.getLocations()" class="locations">
-			<li data-bind="text: name, click: $parent.locationClicked"></li>
-		</ul>
-	</div>
+	<main>
+		<div>
+			<label>Filter: <input type="text" data-bind="textInput: map.filterText"/></label><br>
+			<ul data-bind="foreach: map.getLocations()" class="locations">
+				<li data-bind="text: name, click: $parent.locationClicked"></li>
+			</ul>
+		</div>
 
 
-	<div id="map"></div>
+		<div id="map"></div>
+	</main>
 
 	<footer>
 		Powered by Twitter & Google Maps APIs
 	</footer>
+
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7x1T0ynrVDKHd53290nJWt2Azj8nvWSg"></script>
-	<script type="text/javascript" src="javascripts/app.js"></script>
+	<script src="javascripts/app.js"></script>
 </body>
 </html>

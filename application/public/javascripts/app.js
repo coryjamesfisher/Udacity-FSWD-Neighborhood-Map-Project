@@ -42,7 +42,6 @@ var Map = function(locations, onLocationsFiltered) {
                 }
             }
 
-
             return isMatch;
         });
 
@@ -52,7 +51,7 @@ var Map = function(locations, onLocationsFiltered) {
 };
 
 // Location model holding properties of the location.
-// Note: This also hold references to the google maps objects
+// Note: This also hold references to the google maps marker objects
 // that correspond to them.
 var Location = function(id, name, latitude, longitude) {
 
@@ -89,6 +88,7 @@ var LocationViewModel = function(googleMap) {
     ], function(){
 
         // Using a callback to avoid putting the google map directly in the model.
+        // This will reposition the map to fit all markers
         self.googleMap.fitBounds(self.mapBounds);
     });
 
@@ -191,7 +191,7 @@ var LocationViewModel = function(googleMap) {
         });
     });
 
-    // Treat a location click like a marker click.
+    // Treat a location list item click like a marker click.
     self.locationClicked = function(location) {
         var marker = location.getMarker();
         if (marker) {
