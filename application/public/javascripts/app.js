@@ -1,3 +1,6 @@
+// Create namespace for public functions.
+var tokyoBliss = tokyoBliss || {};
+
 (function() {
 'use strict'; // turn on Strict Mode
 
@@ -205,15 +208,18 @@ var LocationViewModel = function(googleMap) {
     };
 };
 
-// Google maps objects. Not observable as per recommendation in project specs.
-var googleMap = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644}, // These coords are from the sample. The map is immediately recentered anyways.
-    zoom: 8
-});
+tokyoBliss.initialize = function() {
+    // Google maps objects. Not observable as per recommendation in project specs.
+    var googleMap = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -34.397, lng: 150.644}, // These coords are from the sample. The map is immediately recentered anyways.
+        zoom: 8
+    });
 
-var lvm = new LocationViewModel(googleMap);
-ko.applyBindings(lvm);
+    var lvm = new LocationViewModel(googleMap);
+    ko.applyBindings(lvm);
 
-// Prove that adding a location the binds still work appropriately.
-lvm.addLocation(new Location(6, 'Akiba Zone', 35.699770, 139.770332));
+    // Prove that adding a location the binds still work appropriately.
+    lvm.addLocation(new Location(6, 'Akiba Zone', 35.699770, 139.770332));
+};
+
 })();
