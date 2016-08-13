@@ -1,3 +1,6 @@
+(function() {
+'use strict'; // turn on Strict Mode
+
 // Map model holding locations and filtering logic.
 var Map = function(locations) {
 
@@ -39,15 +42,15 @@ var Location = function(id, name, latitude, longitude) {
 
     this.getMarker = function() {
         return self.marker;
-    }
+    };
 
     this.setInfoWindow = function(infoWindow) {
         self.infoWindow = infoWindow;
-    }
+    };
 
     this.getInfoWindow = function() {
         return self.infoWindow;
-    }
+    };
 };
 
 var LocationViewModel = function() {
@@ -129,7 +132,7 @@ var LocationViewModel = function() {
                         if (infoWindow === null) {
 
                             // Initialize content to empty string.
-                            var infoWindow = new google.maps.InfoWindow({
+                            infoWindow = new google.maps.InfoWindow({
                                 content: ''
                             });
 
@@ -189,3 +192,4 @@ ko.applyBindings(lvm);
 
 // Prove that adding a location the binds still work appropriately.
 lvm.map.locations.push(new Location(6, "Akiba Zone", 35.699770, 139.770332));
+})();
