@@ -154,7 +154,14 @@ var LocationViewModel = function() {
                             // Build the list of twitter statuses and assign it to the infoWindow.
                             var contentString = '';
                             data.statuses.forEach(function(status) {
-                                contentString += status.text + '<br/>';
+
+                                // Anchor tag insertion copied from
+                                // https://coderwall.com/p/5yqeow/create-anchor-links-from-tweet-text
+                                contentString += status.text.replace(
+                                    /(>|<a[^<>]+href=['"])?(https?:\/\/([-a-z0-9]+\.)+[a-z]{2,5}(\/[-a-z0-9!#()\/?&.,]*[^ !#?().,])?)/gi,
+                                    function($0, $1, $2) {
+                                        return ($1 ? $0 : '<a href="' + $2 + '" target="_blank">' + $2 + '</a>');
+                                    }) + '<br/>';
                             });
 
                             infoWindow.setContent(contentString);
