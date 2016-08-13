@@ -121,10 +121,14 @@ var LocationViewModel = function() {
 
                 marker.addListener('click', function () {
 
+                    var infoWindow = self.map.getInfoWindow();
+
+                    // Close the info window other wise there is a lag between icon animation shift and new info window.
+                    infoWindow.close();
+
                     // Marker is already animating. Stop it.
                     if (marker.getAnimation() !== null) {
                         marker.setAnimation(null);
-                        self.map.getInfoWindow().close();
                     } else {
 
                         // Loop over the locations. Stop animating other markers. Start animating the selected one.
@@ -136,8 +140,6 @@ var LocationViewModel = function() {
                            }
                         });
 
-                        var infoWindow = self.map.getInfoWindow();
-
                         // Call out to the backend proxy to the twitter service.
                         jQuery.ajax({
                             url: 'http://localhost:8000/api/location/tweets',
@@ -146,22 +148,21 @@ var LocationViewModel = function() {
                                 'location': encodeURIComponent(location.name),
                                 'lat': location.latitude,
                                 'lon': location.longitude
-                            },
-                            success: function(data) {
-
-                                // Build the list of twitter statuses and assign it to the infoWindow.
-                                var contentString = '';
-                                data.statuses.forEach(function(status) {
-                                    contentString += status.text + '<br/>';
-                                });
-
-                                infoWindow.setContent(contentString);
-                                infoWindow.open(self.googleMap, marker);
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                infoWindow.setContent('Sorry, but the Twitter API seems to be down. Please try again soon.');
-                                infoWindow.open(self.googleMap, marker);
                             }
+                        }).done(function(data){
+
+                            // Build the list of twitter statuses and assign it to the infoWindow.
+                            var contentString = '';
+                            data.statuses.forEach(function(status) {
+                                contentString += status.text + '<br/>';
+                            });
+
+                            infoWindow.setContent(contentString);
+                            infoWindow.open(self.googleMap, marker);
+
+                        }).fail(function(jqXHR, textStatus) {
+                            infoWindow.setContent('Sorry, but the Twitter API seems to be down. Please try again soon.');
+                            infoWindow.open(self.googleMap, marker);
                         });
                     }
                 });
