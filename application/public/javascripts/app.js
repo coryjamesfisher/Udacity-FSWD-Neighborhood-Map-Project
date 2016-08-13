@@ -99,12 +99,15 @@ var LocationViewModel = function() {
         zoom: 8
     });
     self.markers = [];
+    self.mapBounds = null;
 
     // Marker rendering
     self.updateMapMarkers = function() {
 
-        var locations = self.getLocations(),
-            mapBounds = new google.maps.LatLngBounds();
+        var locations = self.getLocations()
+
+        // Reset the map bounds for recalculation.
+        self.mapBounds = new google.maps.LatLngBounds();
 
         // Build a clickable marker for each location.
         locations.forEach(function(location){
@@ -177,10 +180,15 @@ var LocationViewModel = function() {
                 self.markers.push(marker);
             }
 
-            mapBounds.extend(location.getMarker().getPosition());
+            self.mapBounds.extend(location.getMarker().getPosition());
         });
 
-        self.googleMap.fitBounds(mapBounds);
+        self.googleMap.fitBounds(self.mapBounds);
+    };
+
+    // Reposition map on resize
+    window.onresize = function(){
+        self.googleMap.fitBounds(self.mapBounds);
     };
 
     // If locations change update map markers. Right now I don't add any. But if I add some below it works!
